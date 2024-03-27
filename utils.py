@@ -1,40 +1,21 @@
 import math
-import Graph
+from Graphe import Graphe
 
 
-def create_graph_from_file(filename):
-    graph = Graph()
-    with open(filename, 'r') as file:
-        line = file.readline().strip().split(' ')
-        n, m = int(line[0]), int(line[1])
-        for i in range(n):
-            line = file.readline().strip().split(' ')
-            for j in range(m):
-                if line[j] == '1':
-                    graph.add_vertex((i, j))
-                elif line[j] == '2':
-                    graph.add_vertex((i, j))
-                    start = (i, j)
-                elif line[j] == '3':
-                    graph.add_vertex((i, j))
-                    end = (i, j)
-        for i in range(n):
-            for j in range(m):
-                if (i, j) in graph.vertices:
-                    if i > 0 and (i-1, j) in graph.vertices:
-                        graph.add_edge((i, j), (i-1, j), 1)
-                    if i < n-1 and (i+1, j) in graph.vertices:
-                        graph.add_edge((i, j), (i+1, j), 1)
-                    if j > 0 and (i, j-1) in graph.vertices:
-                        graph.add_edge((i, j), (i, j-1), 1)
-                    if j < m-1 and (i, j+1) in graph.vertices:
-                        graph.add_edge((i, j), (i, j+1), 1)
-                    if i > 0 and j > 0 and (i-1, j-1) in graph.vertices:
-                        graph.add_edge((i, j), (i-1, j-1), math.sqrt(2))
-                    if i > 0 and j < m-1 and (i-1, j+1) in graph.vertices:
-                        graph.add_edge((i, j), (i-1, j+1), math.sqrt(2))
-                    if i < n-1 and j > 0 and (i+1, j-1) in graph.vertices:
-                        graph.add_edge((i, j), (i+1, j-1), math.sqrt(2))
-                    if i < n-1 and j < m-1 and (i+1, j+1) in graph.vertices:
-                        graph.add_edge((i, j), (i+1, j+1), math.sqrt(2))
-    return graph, start, end
+def creer_graphe_depuis_fichier(nom_fichier):
+    graphe = Graphe()
+    with open(nom_fichier, 'r') as fichier:
+        n, m = map(int, fichier.readline().split())  # dimensions du réseau
+        reseau = [fichier.readline().split() for _ in range(n)]  # Lecture du réseau
+
+        for y in range(n):
+            for x in range(m):
+                graphe.ajouter_sommet(x, y)
+                if reseau[y][x] in ['1', '2', '3']:
+                    # Vérifier et ajouter des arêtes pour tous les voisins possibles
+                    for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
+                        nx, ny = x + dx, y + dy
+                        if 0 <= nx < m and 0 <= ny < n and reseau[ny][nx] in ['1', '2', '3']:
+                            distance = 1 if dx == 0 or dy == 0 else 2**0.5
+                            graphe.ajouter_arete((x, y), (nx, ny), distance)
+    return graphe, n, m
