@@ -16,7 +16,8 @@ class Graphe:
                 self.reseau.append(ligne)
                 for j, valeur in enumerate(ligne):
                     if valeur != 0:  # Exclut les obstacles
-                        self.sommets[(i, j)] = valeur
+                        # self.sommets[(i, j)] = valeur
+                        self.ajouter_sommet((i, j), valeur)
                         if valeur == 2:
                             self.depart = (i, j)
                         elif valeur == 3:
@@ -34,6 +35,22 @@ class Graphe:
 
     def ajouter_arete(self, sommet1, sommet2, cout):
         self.aretes.append(((sommet1, sommet2), cout))
+
+    def ajouter_sommet(self, sommet, valeur):
+        self.sommets[sommet] = valeur
+
+    def remove_arete(self, sommet1, sommet2):
+        for i, (arete, cout) in enumerate(self.aretes):
+            if arete == (sommet1, sommet2) or arete == (sommet2, sommet1):
+                self.aretes.remove(((sommet1, sommet2), cout))
+                break
+
+    def remove_sommet(self, sommet):
+        self.sommets.pop(sommet)
+        aretes = self.aretes.copy()
+        for (s1, s2), _ in aretes:
+            if s1 == sommet or s2 == sommet:
+                self.remove_arete(s1, s2)
 
     def afficher_reseau(self):
         # Création d'une grille vide
@@ -62,7 +79,6 @@ class Graphe:
             for (s1, s2), cout in self.aretes:
                 if sommet == s1:  # Assure que l'arête est traitée une seule fois
                     print(f"  -> {s2} (coût: {cout})")
-
 
 
     def afficher_sommets(self):
