@@ -1,4 +1,6 @@
 import math
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 class Graphe:
     def __init__(self):
@@ -17,19 +19,19 @@ class Graphe:
                 for j, valeur in enumerate(ligne):
                     if valeur != 0:  # Exclut les obstacles
                         # self.sommets[(i, j)] = valeur
-                        self.ajouter_sommet((i, j), valeur)
+                        self.ajouter_sommet((j, i), valeur)
                         if valeur == 2:
-                            self.depart = (i, j)
+                            self.depart = (j, i)
                         elif valeur == 3:
-                            self.arrivee = (i, j)
+                            self.arrivee = (j, i)
 
         # Construire les arêtes pour les sommets accessibles, incluant les diagonales
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
-        for i in range(n):
-            for j in range(m):
+        for i in range(m):
+            for j in range(n):
                 if (i, j) in self.sommets:  # Si le sommet est accessible
                     for di, dj in directions:  # Adjacents et diagonales
-                        if 0 <= i + di < n and 0 <= j + dj < m and (i + di, j + dj) in self.sommets:
+                        if 0 <= i + di < m and 0 <= j + dj < n and (i + di, j + dj) in self.sommets:
                             cout = math.sqrt(di**2 + dj**2)
                             self.ajouter_arete((i, j), (i + di, j + dj), cout)
 
@@ -85,4 +87,41 @@ class Graphe:
         print("Sommets accessibles:")
         for sommet, valeur in self.sommets.items():
             print(f"  {sommet} ({valeur})")
+
+    def afficher_graphe_matplotlib(self):
+        fig, ax = plt.subplots()
+        
+        # Dessiner les sommets et les arêtes
+        for sommet, valeur in self.sommets.items():
+            x, y = sommet
+            if sommet == self.depart:
+                ax.plot(x, y, 'go', markersize=10)  # Départ en vert
+            elif sommet == self.arrivee:
+                ax.plot(x, y, 'ro', markersize=10)  # Arrivée en rouge
+            else:
+                ax.plot(x, y, 'bo')  # Sommets en bleu
+        
+        # Dessiner les obstacles
+        for i, ligne in enumerate(self.reseau):
+            for j, cellule in enumerate(ligne):
+                if cellule == 0:  # Obstacle
+                    ax.plot(j, i, 'ks')  # Obstacles en noir
+        
+        # Dessiner les arêtes
+        for arete, cout in self.aretes:
+            x1, y1 = arete[0]
+            x2, y2 = arete[1]
+            ax.plot([x1, x2], [y1, y2], 'gray')  # Arêtes en gris
+        
+        ax.invert_yaxis()  # Inverser l'axe Y pour correspondre à la disposition matricielle
+        plt.axis('equal')  # Garder les proportions égales
+        
+        # Légende
+        depart_patch = mpatches.Patch(color='green', label='Départ')
+        arrivee_patch = mpatches.Patch(color='red', label='Arrivée')
+        sommet_patch = mpatches.Patch(color='blue', label='Sommet')
+        obstacle_patch = mpatches.Patch(color='black', label='Obstacle')
+        plt.legend(handles=[depart_patch, arrivee_patch, sommet_patch, obstacle_patch])
+        
+        plt.show()
 

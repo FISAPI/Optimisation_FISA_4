@@ -12,3 +12,4 @@ if __name__ == "__main__":
     graphe.lire_fichier(nom_fichier)
     graphe.afficher_reseau()
     graphe.afficher_graphe()
+    graphe.afficher_graphe_matplotlib()
