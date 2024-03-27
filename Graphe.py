@@ -74,6 +74,24 @@ class Graphe:
         for ligne in grille:
             print(' '.join(ligne))
 
+    def get_aretes(self):
+        return self.aretes
+
+    def get_sommets(self):
+        return self.sommets
+
+    def get_depart(self):
+        return self.depart
+
+    def get_arrivee(self):
+        return self.arrivee
+
+    def get_nb_sommets(self):
+        return len(self.sommets)
+
+    def get_nb_aretes(self):
+        return len(self.aretes)
+
     def afficher_graphe(self):
         # Afficher chaque sommet et ses arêtes
         for sommet, valeur in self.sommets.items():
