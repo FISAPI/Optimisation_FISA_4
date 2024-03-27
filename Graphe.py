@@ -58,9 +58,15 @@ class Graphe:
     def afficher_graphe(self):
         # Afficher chaque sommet et ses arêtes
         for sommet, valeur in self.sommets.items():
-            print(f"Sommet {sommet} ({valeur}):")
-            for arete, cout in self.aretes:
-                if sommet in arete:
-                    autre_sommet = arete[0] if arete[1] == sommet else arete[1]
-                    print(f"  -> {autre_sommet} (coût: {cout})")
+            print(f"Sommet {sommet} ({'Départ' if valeur == 2 else 'Arrivée' if valeur == 3 else 'Traversable'}):")
+            for (s1, s2), cout in self.aretes:
+                if sommet == s1:  # Assure que l'arête est traitée une seule fois
+                    print(f"  -> {s2} (coût: {cout})")
+
+
+
+    def afficher_sommets(self):
+        print("Sommets accessibles:")
+        for sommet, valeur in self.sommets.items():
+            print(f"  {sommet} ({valeur})")
 
