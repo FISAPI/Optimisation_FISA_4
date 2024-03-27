@@ -82,7 +82,6 @@ class Graphe:
                 if sommet == s1:  # Assure que l'arête est traitée une seule fois
                     print(f"  -> {s2} (coût: {cout})")
 
-
     def afficher_sommets(self):
         print("Sommets accessibles:")
         for sommet, valeur in self.sommets.items():
