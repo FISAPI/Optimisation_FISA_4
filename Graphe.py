@@ -1,14 +1,25 @@
 import math
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import os
 
 class Graphe:
-    def __init__(self):
+    def __init__(self, file_path=None):
         self.reseau = []  # Représentation du réseau (matrice)
         self.sommets = {}  # Informations sur les sommets (uniquement ceux accessibles)
         self.aretes = []  # Liste des arêtes (sommets connectés et leur coût)
         self.depart = None
         self.arrivee = None
+        # Utilisez os.path pour diviser le chemin en répertoire et nom de fichier
+        self.path, file_name_with_ext = os.path.split(file_path)
+        # Divisez le nom de fichier avec extension en nom de fichier et extension
+        self.file_name, self.extension = os.path.splitext(file_name_with_ext)
+        if self.file_name is not None and self.extension is not None:
+            print(f"Chargement du fichier {self.path + '/' + self.file_name + self.extension}...")
+            print("path : ", self.path)
+            print("file_name : ", self.file_name)
+            print("extension : ", self.extension)
+            self.lire_fichier(self.path + '/' + self.file_name + self.extension)
 
     def lire_fichier(self, nom_fichier):
         with open(nom_fichier, 'r') as fichier:
@@ -142,3 +153,45 @@ class Graphe:
         
         plt.show()
 
+    def get_voisins(self, sommet):
+        voisins = []
+        for (s1, s2), _ in self.aretes:
+            if s1 == sommet:
+                voisins.append(s2)
+            elif s2 == sommet:
+                voisins.append(s1)
+        return voisins
+
+    def get_cout(self, sommet1, sommet2):
+        for (s1, s2), cout in self.aretes:
+            if (s1 == sommet1 and s2 == sommet2) or (s1 == sommet2 and s2 == sommet1):
+                return cout
+        return None
+
+    def get_valeur(self, sommet):
+        return self.sommets[sommet]
+
+    def write_reseau_in_file(self):
+        with open(self.path + '/' + self.file_name+'_rewrite'+self.extension, 'w') as fichier:
+            fichier.write(f"{len(self.reseau)} {len(self.reseau[0])}\n")
+            for i in range(len(self.reseau)):
+                fichier.write(' '.join(map(str, self.reseau[i])))
+                fichier.write('\n')
+
+    def write_solution_in_file(self):
+        # Voir comment s'écrit la solution
+        with open(self.path + '/' + 'sol_'+self.file_name+self.extension, 'w') as fichier:
+            fichier.write(f"{len(self.reseau)} {len(self.reseau[0])}\n")
+            for i in range(len(self.reseau)):
+                ligne = []
+                for j in range(len(self.reseau[i])):
+                    if (j, i) == self.depart:
+                        ligne.append(2)
+                    elif (j, i) == self.arrivee:
+                        ligne.append(3)
+                    elif (j, i) in self.sommets:
+                        ligne.append(1)
+                    else:
+                        ligne.append(0)
+                fichier.write(' '.join(map(str, ligne)))
+                fichier.write('\n')
