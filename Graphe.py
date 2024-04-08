@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import os
 
+import numpy as np
 
 class Graphe:
     def __init__(self, file_path=None):
@@ -65,6 +66,15 @@ class Graphe:
         for (s1, s2), _ in aretes:
             if s1 == sommet or s2 == sommet:
                 self.remove_arete(s1, s2)
+
+    def get_voisins(self, sommet):
+        voisins = []
+        for (autre_sommet, cout) in self.aretes:
+            if sommet == autre_sommet[0]:
+                voisins.append((autre_sommet[1], cout))
+            elif sommet == autre_sommet[1]:
+                voisins.append((autre_sommet[0], cout))
+        return voisins
 
     def afficher_reseau(self):
         # Création d'une grille vide
@@ -217,3 +227,47 @@ class Graphe:
                         ligne.append(0)
                 fichier.write(' '.join(map(str, ligne)))
                 fichier.write('\n')
+
+    def plot_chemin(self, chemin):
+        fig, ax = plt.subplots()
+        
+        # Dessiner les arêtes
+        for (s1, s2), cout in self.aretes:
+            x1, y1 = s1
+            x2, y2 = s2
+            ax.plot([x1, x2], [y1, y2], 'gray')  # Arêtes en gris
+
+        # Dessiner les sommets
+        for sommet, valeur in self.sommets.items():
+            x, y = sommet
+            ax.plot(x, y, 'bo')  # Sommets en bleu
+
+        # Dessiner les obstacles
+        for i, row in enumerate(self.reseau):
+            for j, val in enumerate(row):
+                if val == 0:  # Obstacle
+                    ax.plot(j, i, 'ks')  # Obstacles en noir
+
+        # Dessiner le chemin de la solution
+        if chemin is not None:
+            chemin_np = np.array(chemin)
+            ax.plot(chemin_np[:, 0], chemin_np[:, 1], 'r-', linewidth=2)  # Chemin en rouge
+
+        # Marquer le départ et l'arrivée
+        if self.depart:
+            ax.plot(self.depart[0], self.depart[1], 'go', markersize=10)  # Départ en vert
+        if self.arrivee:
+            ax.plot(self.arrivee[0], self.arrivee[1], 'ro', markersize=10)  # Arrivée en rouge
+
+        ax.invert_yaxis()  # Inverser l'axe Y pour correspondre à la disposition matricielle
+        plt.axis('equal')  # Garder les proportions égales
+        
+        # Légende
+        depart_patch = mpatches.Patch(color='green', label='Départ')
+        arrivee_patch = mpatches.Patch(color='red', label='Arrivée')
+        sommet_patch = mpatches.Patch(color='blue', label='Sommet')
+        obstacle_patch = mpatches.Patch(color='black', label='Obstacle')
+        chemin_patch = mpatches.Patch(color='red', label='Chemin')
+        plt.legend(handles=[depart_patch, arrivee_patch, sommet_patch, obstacle_patch, chemin_patch])
+        
+        plt.show()

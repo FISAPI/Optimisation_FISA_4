@@ -1,5 +1,6 @@
 import sys
 from Graphe import Graphe
+from Algorithmes import a_star
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -40,3 +41,9 @@ if __name__ == "__main__":
     #     for t in table.itertuples(index=False):
     #         print(t[0]," buses ",t[1], "seats")
 
+
+
+    chemin = a_star(graphe, graphe.depart, graphe.arrivee)
+    print("Chemin trouvé:", chemin)
+
+    graphe.plot_chemin(chemin)
