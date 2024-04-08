@@ -260,11 +260,11 @@ class Graphe:
         return chemin
 
     def write_chemin(self, chemin):
-        with open(self.path + '/' +self.file_name+ "_solution" +self.extension, 'w') as file:
+        with open(self.path + '/' + "sol_" + self.file_name +self.extension, 'w') as file:
             file.write(f"{chemin}")
 
     def write_chemin_astar(self, chemin):
-        with open(self.path + '/' + self.file_name + "_solution_a_star" + self.extension, 'w') as file:
+        with open(self.path + '/' + "sol_a_" + self.file_name + self.extension, 'w') as file:
             file.write(f"{chemin}")
 
     def trier_chemin(self, pre_chemin):
