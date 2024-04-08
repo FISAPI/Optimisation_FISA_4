@@ -20,14 +20,15 @@ if __name__ == "__main__":
     print("Lorsque vous avez le résultat, vous pouvez copier le fichier le résultat d dans le fichier avec le même "
           "nom de réseau_chemin dans le dossier exos.")
     # input("Appuyez sur une touche pour continuer...")
-    graphe.write_chemin_in_file()
 
     # Récupérer et afficher les résultats
 
     chemin1 = a_star(graphe, graphe.depart, graphe.arrivee)
     print("Chemin trouvé:", chemin1)
+    graphe.write_chemin_astar(chemin1)
     graphe.plot_chemin(chemin1)
 
-    chemin2 = graphe.write_chemin_in_file()
+    chemin2 = graphe.get_chemin()
+    graphe.write_chemin(chemin2)
     print("Deuxième chemin trouvé:", chemin2)
     graphe.plot_chemin(chemin2)

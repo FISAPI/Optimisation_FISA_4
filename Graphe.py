@@ -229,7 +229,7 @@ class Graphe:
     #             fichier.write(' '.join(map(str, ligne)))
     #             fichier.write('\n')
 
-    def write_chemin_in_file(self):
+    def get_chemin(self):
         with open(self.path + '/' +self.file_name+ "_chemin" +self.extension, 'r') as fichier:
             lines = fichier.readlines()
 
@@ -257,9 +257,15 @@ class Graphe:
         print("pre_chemin2 : ", pre_chemin2)
         chemin = self.calc_chemin(pre_chemin2)
         print("chemin : ", chemin)
+        return chemin
+
+    def write_chemin(self, chemin):
         with open(self.path + '/' +self.file_name+ "_solution" +self.extension, 'w') as file:
             file.write(f"{chemin}")
-        return chemin
+
+    def write_chemin_astar(self, chemin):
+        with open(self.path + '/' + self.file_name + "_solution_a_star" + self.extension, 'w') as file:
+            file.write(f"{chemin}")
 
     def trier_chemin(self, pre_chemin):
         chemin = []
