@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import os
 
+
 class Graphe:
     def __init__(self, file_path=None):
         self.reseau = []  # Représentation du réseau (matrice)
@@ -177,6 +178,27 @@ class Graphe:
             for i in range(len(self.reseau)):
                 fichier.write(' '.join(map(str, self.reseau[i])))
                 fichier.write('\n')
+
+    def write_data_in_file(self):
+        with open(self.path + '/' + 'data_'+self.file_name+".dat", 'w') as fichier:
+            fichier.write(f"nbNodes = {len(self.sommets)};\n")
+            dep = str(self.depart).replace("(", "<").replace(")", ">")
+            fichier.write(f"s = {dep};\n")
+            arr = str(self.arrivee).replace("(", "<").replace(")", ">")
+            fichier.write(f"t = {arr};\n\n")
+
+            fichier.write("Nodes = {\n")
+            for sommet in self.sommets:
+                fichier.write(f"\t<{sommet[0]},{sommet[1]}> // Sommet au point ({sommet[0]},{sommet[1]})\n")
+
+            fichier.write("};\n\n")
+            fichier.write("Arcs = {\n")
+            for arc in self.aretes:
+                arc = str(arc)
+                arc2 = arc.replace("(", "<").replace(")", ">")
+                arc2 = arc2.replace("<<", "<").replace(">>", ">")
+                fichier.write(f"\t{arc2}\n")
+            fichier.write("};\n")
 
     def write_solution_in_file(self):
         # Voir comment s'écrit la solution

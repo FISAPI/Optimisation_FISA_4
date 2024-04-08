@@ -1,7 +1,6 @@
 Pour modéliser le problème du plus court chemin sous la forme d'un programme linéaire, nous pouvons utiliser les variables suivantes :
 
 x(i,j) = 1 si l'arc (i,j) fait partie du chemin le plus court, 0 sinon<br>
-d(i) = distance du sommet i au sommet s (la source) (comprendre la somme des coûts entre des sommets parcourus)<br>
 Nous pouvons alors écrire le programme linéaire suivant :
 
 Minimiser :<br>

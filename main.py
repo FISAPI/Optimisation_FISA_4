@@ -1,6 +1,5 @@
 import sys
 from Graphe import Graphe
-import cplex
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -14,23 +13,30 @@ if __name__ == "__main__":
     graphe.afficher_reseau()
     graphe.afficher_graphe()
     graphe.afficher_graphe_matplotlib()
+    graphe.write_data_in_file()
     graphe.write_reseau_in_file()
-
-    # Créer une instance de CPLEX
-    cpx = cplex.Cplex()
-
-    # Charger le modèle à partir d'un fichier MOD
-    cpx.read("TP_Optimisation_1_2.mod")
-
-    # Charger les données à partir d'un fichier DAT
-    cpx.read_data("TP_Optimisation_1_2.dat")
-
-    # Résoudre le modèle avec CPLEX
-    cpx.solve()
+    # print("Vous pouvez maintenant récupérer le fichier .dat pour le tester dans CPLEX.")
+    # print("Lorsque vous avez le résultat, vous pouvez copier le fichier .sol dans le dossier exos.")
+    # input("Appuyez sur une touche pour continuer...")
 
     # Récupérer et afficher les résultats
-    print("Valeur de la fonction objectif : ", cpx.solution.get_objective_value())
-    print("Valeur de x : ", cpx.solution.get_values("x"))  # Remplacez "x" par le nom de votre variable
 
+    # # Create an OPL model from a .mod file
+    # with create_opl_model(model="zootupleset.mod",data="zootupleset.dat") as opl:
 
+    #     # Generate the problem and solve it.
+    #     opl.run()
+
+    #     # Get the names of post processing tables
+    #     print("Table names are: "+ str(opl.output_table_names))
+
+    #     # Get all the post processing tables as dataframes.
+    #     for name, table in iteritems(opl.report):
+    #         print("Table : " + name)
+    #     for t in table.itertuples(index=False):
+    #             print(t)
+
+    #     # nicer display
+    #     for t in table.itertuples(index=False):
+    #         print(t[0]," buses ",t[1], "seats")
 
