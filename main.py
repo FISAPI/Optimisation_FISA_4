@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # Heuristic choice input
     he = 0  
     while he < 1 or he > 3:
-        he = int(input("Choisissez une heuristique (1, 2 ou 3) : "))
+        he = int(input("Choisissez une heuristique (zero (1), ligne droite (2) ou ou la distance euclidienne (3)) : "))
     print("Vous avez choisi l'heuristique", he)
 
     # Récupérer et afficher les résultats
