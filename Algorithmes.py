@@ -38,16 +38,16 @@ def a_star(graphe, depart, arrivee, heuristique_choice=1):
     closed_set = set()
 
     while open_set:
-        # Trouver le noeud dans open_set avec la plus petite valeur de f
         noeud_courant = min(open_set, key=lambda o: o.f)
         open_set.remove(noeud_courant)
 
         if noeud_courant.position == noeud_arrivee.position:
             chemin = []
+            total_cost = noeud_courant.g  # Le coût total du chemin est le coût g du noeud d'arrivée
             while noeud_courant:
                 chemin.append(noeud_courant.position)
                 noeud_courant = noeud_courant.parent
-            return chemin[::-1]  # Retourner le chemin en partant du départ
+            return chemin[::-1], total_cost  # Retourner le chemin et le coût total
 
         closed_set.add(noeud_courant.position)
 
@@ -59,16 +59,16 @@ def a_star(graphe, depart, arrivee, heuristique_choice=1):
             noeud_voisin = Noeud(voisin_position, noeud_courant)
 
             tentative_g_score = noeud_courant.g + cout
-            if tentative_g_score >= noeud_voisin.g and noeud_voisin in open_set:
-                continue
+            if tentative_g_score < noeud_voisin.g or noeud_voisin not in open_set:
+                noeud_voisin.g = tentative_g_score
+                noeud_voisin.h = heuristique(noeud_voisin.position, noeud_arrivee.position, heuristique_choice)
+                noeud_voisin.f = noeud_voisin.g + noeud_voisin.h
+                noeud_voisin.parent = noeud_courant
 
-            noeud_voisin.g = tentative_g_score
-            noeud_voisin.h = heuristique(noeud_voisin.position, noeud_arrivee.position, heuristique_choice)
-            noeud_voisin.f = noeud_voisin.g + noeud_voisin.h
+                if noeud_voisin not in open_set:
+                    open_set.append(noeud_voisin)
 
-            if noeud_voisin not in open_set:
-                open_set.append(noeud_voisin)
-
-    return None  # Aucun chemin trouvé
+    print("Aucun chemin trouvé")
+    return None, None
 
 # TODO: FAIRE L'ENREGISTREMENT DES CHEMINS DANS UN FICHIER
