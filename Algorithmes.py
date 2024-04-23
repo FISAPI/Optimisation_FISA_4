@@ -12,8 +12,6 @@ class Noeud:
     def __lt__(self, other):
         return self.f < other.f
 
-
-def heuristique(a, b, heuristique_choice=1):
 def heuristique(a, b, heuristique_choice=1):
     (x1, y1) = a
     (x2, y2) = b
@@ -37,7 +35,7 @@ def heuristique(a, b, heuristique_choice=1):
 def a_star(graphe, depart, arrivee, heuristique_choisie=1):
     noeud_depart = Noeud(depart)
     noeud_arrivee = Noeud(arrivee)
-    noeud_depart.h = heuristique(noeud_depart.position, noeud_arrivee.position, heuristique_choice)
+    noeud_depart.h = heuristique(noeud_depart.position, noeud_arrivee.position, heuristique_choisie)
     noeud_depart.f = noeud_depart.h
 
     open_set = [noeud_depart]
