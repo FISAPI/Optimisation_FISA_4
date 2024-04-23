@@ -1,4 +1,5 @@
 import sys
+import time
 from Graphe import Graphe
 from Algorithmes import a_star
 
@@ -26,7 +27,10 @@ if __name__ == "__main__":
 
     # Récupérer et afficher les résultats
 
-    chemin1 = a_star(graphe, graphe.depart, graphe.arrivee)
+    debut = time.time()
+    chemin1 = a_star(graphe, graphe.depart, graphe.arrivee)    
+    fin = time.time()
+    print(f"Temps d'exécution : {fin - debut} secondes")
     print("Chemin trouvé:", chemin1)
     graphe.write_chemin_astar(chemin1)
     graphe.plot_chemin(chemin1)
