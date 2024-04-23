@@ -16,10 +16,13 @@ if __name__ == "__main__":
     graphe.afficher_graphe_matplotlib()
     graphe.write_data_in_file()
     graphe.write_reseau_in_file()
-    print("Vous pouvez maintenant récupérer le fichier .dat pour le tester dans CPLEX.")
+    print("\nVous pouvez maintenant récupérer le fichier .dat pour le tester dans CPLEX.")
     print("Lorsque vous avez le résultat, vous pouvez copier le fichier le résultat d dans le fichier avec le même "
-          "nom de réseau_chemin dans le dossier exos.")
-    # input("Appuyez sur une touche pour continuer...")
+          "nom de réseau_chemin dans le dossier exos.\n")
+    input("Appuyez sur une touche pour continuer...")
+    rep = str(input("Avez-vous créé le fichier avec le résultat ? (Oui/Non) : "))
+    while rep != "Oui" and rep !="OUI" and rep != "oui" and rep != "O" and rep != "o":
+        rep = str(input("Avez-vous créé le fichier avec le résultat ? (Oui/Non) : "))
 
     # Récupérer et afficher les résultats
 

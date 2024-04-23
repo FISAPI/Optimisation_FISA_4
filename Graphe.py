@@ -235,6 +235,8 @@ class Graphe:
 
             d = []
             for i, line in enumerate(lines):
+                if line == "d = []":
+                    return []
                 if i == 0:
                     continue
                 line = line.strip()
@@ -252,11 +254,8 @@ class Graphe:
                     pre_chemin.append(arc)
 
         # pre_chemin = [(((2, 0), (3, 0)), 1.0), (((5, 2), (6, 3)), 1.4142135623730951), (((1, 0), (2, 0)), 1.0), (((4, 1), (5, 2)), 1.4142135623730951), (((3, 0), (4, 1)), 1.4142135623730951)]
-        print("pre_chemin : ", pre_chemin)
         pre_chemin2 = self.trier_chemin(pre_chemin)
-        print("pre_chemin2 : ", pre_chemin2)
         chemin = self.calc_chemin(pre_chemin2)
-        print("chemin : ", chemin)
         return chemin
 
     def write_chemin(self, chemin):
@@ -292,6 +291,10 @@ class Graphe:
         return chemin
 
     def plot_chemin(self, chemin):
+        if chemin == []:
+            print("Pas de chemin trouvé")
+            self.afficher_graphe_matplotlib()
+            return 0
         fig, ax = plt.subplots()
         
         # Dessiner les arêtes
