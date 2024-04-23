@@ -1,5 +1,6 @@
 import math
 
+
 class Noeud:
     def __init__(self, position, parent=None):
         self.position = position
@@ -11,10 +12,12 @@ class Noeud:
     def __lt__(self, other):
         return self.f < other.f
 
+
 def heuristique(a, b):
     (x1, y1) = a
     (x2, y2) = b
     return math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+
 
 def a_star(graphe, depart, arrivee):
     noeud_depart = Noeud(depart)
@@ -58,6 +61,5 @@ def a_star(graphe, depart, arrivee):
                 open_set.append(noeud_voisin)
 
     return None  # Aucun chemin trouvé
-
 
 # TODO: FAIRE L'ENREGISTREMENT DES CHEMINS DANS UN FICHIER

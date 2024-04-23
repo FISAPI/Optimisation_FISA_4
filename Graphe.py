@@ -5,6 +5,7 @@ import os
 
 import numpy as np
 
+
 class Graphe:
     def __init__(self, file_path=None):
         self.reseau = []  # Représentation du réseau (matrice)
@@ -166,11 +167,11 @@ class Graphe:
 
     def get_voisins(self, sommet):
         voisins = []
-        for (s1, s2), _ in self.aretes:
-            if s1 == sommet:
-                voisins.append(s2)
-            elif s2 == sommet:
-                voisins.append(s1)
+        for (autre_sommet, cout) in self.aretes:
+            if sommet == autre_sommet[0]:
+                voisins.append((autre_sommet[1], cout))
+            elif sommet == autre_sommet[1]:
+                voisins.append((autre_sommet[0], cout))
         return voisins
 
     def get_cout(self, sommet1, sommet2):
@@ -210,25 +211,90 @@ class Graphe:
                 fichier.write(f"\t{arc2}\n")
             fichier.write("};\n")
 
-    def write_solution_in_file(self):
-        # Voir comment s'écrit la solution
-        with open(self.path + '/' + 'sol_'+self.file_name+self.extension, 'w') as fichier:
-            fichier.write(f"{len(self.reseau)} {len(self.reseau[0])}\n")
-            for i in range(len(self.reseau)):
-                ligne = []
-                for j in range(len(self.reseau[i])):
-                    if (j, i) == self.depart:
-                        ligne.append(2)
-                    elif (j, i) == self.arrivee:
-                        ligne.append(3)
-                    elif (j, i) in self.sommets:
-                        ligne.append(1)
-                    else:
-                        ligne.append(0)
-                fichier.write(' '.join(map(str, ligne)))
-                fichier.write('\n')
+    # def write_solution_in_file(self):
+    #     # Voir comment s'écrit la solution
+    #     with open(self.path + '/' + 'sol_'+self.file_name+self.extension, 'w') as fichier:
+    #         fichier.write(f"{len(self.reseau)} {len(self.reseau[0])}\n")
+    #         for i in range(len(self.reseau)):
+    #             ligne = []
+    #             for j in range(len(self.reseau[i])):
+    #                 if (j, i) == self.depart:
+    #                     ligne.append(2)
+    #                 elif (j, i) == self.arrivee:
+    #                     ligne.append(3)
+    #                 elif (j, i) in self.sommets:
+    #                     ligne.append(1)
+    #                 else:
+    #                     ligne.append(0)
+    #             fichier.write(' '.join(map(str, ligne)))
+    #             fichier.write('\n')
+
+    def get_chemin(self):
+        with open(self.path + '/' +self.file_name+ "_chemin" +self.extension, 'r') as fichier:
+            lines = fichier.readlines()
+
+            d = []
+            for i, line in enumerate(lines):
+                if line == "d = []":
+                    return []
+                if i == 0:
+                    continue
+                line = line.strip()
+                elements = line.split(' ')
+                for j, element in enumerate(elements):
+                    if element == '[1':
+                        d.append(j - 2)
+                    if element == '1':
+                        d.append(j - 2)
+        print(d)
+        pre_chemin = []
+        for i, arc in enumerate(self.aretes):
+            for j in d:
+                if i == j:
+                    pre_chemin.append(arc)
+
+        # pre_chemin = [(((2, 0), (3, 0)), 1.0), (((5, 2), (6, 3)), 1.4142135623730951), (((1, 0), (2, 0)), 1.0), (((4, 1), (5, 2)), 1.4142135623730951), (((3, 0), (4, 1)), 1.4142135623730951)]
+        pre_chemin2 = self.trier_chemin(pre_chemin)
+        chemin = self.calc_chemin(pre_chemin2)
+        return chemin
+
+    def write_chemin(self, chemin):
+        with open(self.path + '/' + "sol_" + self.file_name +self.extension, 'w') as file:
+            file.write(f"{chemin}")
+
+    def write_chemin_astar(self, chemin):
+        with open(self.path + '/' + "sol_a_" + self.file_name + self.extension, 'w') as file:
+            file.write(f"{chemin}")
+
+    def trier_chemin(self, pre_chemin):
+        chemin = []
+        sommet_depart = self.depart
+        while pre_chemin:
+            arc = next((a for a in pre_chemin if a[0][0] == sommet_depart), None)
+            if arc is None:
+                break
+            chemin.append(arc)
+            sommet_depart = arc[0][1]
+            pre_chemin.remove(arc)
+        return chemin
+
+    def calc_chemin(self, pre_chemin):
+        chemin = []
+        for arc in pre_chemin:
+            sommet1, sommet2 = arc[0][0], arc[0][1]
+            if not chemin:
+                chemin.append(sommet1)
+                chemin.append(sommet2)
+            else:
+                if sommet1 in chemin:
+                    chemin.append(sommet2)
+        return chemin
 
     def plot_chemin(self, chemin):
+        if chemin == []:
+            print("Pas de chemin trouvé")
+            self.afficher_graphe_matplotlib()
+            return 0
         fig, ax = plt.subplots()
         
         # Dessiner les arêtes
