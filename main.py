@@ -34,9 +34,12 @@ if __name__ == "__main__":
     print("Vous avez choisi l'heuristique", he)
 
     # Récupérer et afficher les résultats
-
-    chemin1 = a_star(graphe, graphe.depart, graphe.arrivee, he)
+    debut = time.time()
+    chemin1, total_cost = a_star(graphe, graphe.depart, graphe.arrivee, he)    
+    fin = time.time()
+    print(f"Temps d'exécution : {fin - debut} secondes")
     print("Chemin trouvé:", chemin1)
+    print("Coût total du chemin:", total_cost)  
     graphe.write_chemin_astar(chemin1)
     graphe.plot_chemin(chemin1)
 
