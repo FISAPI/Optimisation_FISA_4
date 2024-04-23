@@ -25,10 +25,15 @@ if __name__ == "__main__":
     while rep != "Oui" and rep !="OUI" and rep != "oui" and rep != "O" and rep != "o":
         rep = str(input("Avez-vous créé le fichier avec le résultat ? (Oui/Non) : "))
 
-    # Récupérer et afficher les résultats
+    # Heuristic choice input
+    he = 0  
+    while he < 1 or he > 3:
+        he = int(input("Choisissez une heuristique (1, 2 ou 3) : "))
+    print("Vous avez choisi l'heuristique", he)
 
+    # Récupérer et afficher les résultats
     debut = time.time()
-    chemin1 = a_star(graphe, graphe.depart, graphe.arrivee)    
+    chemin1 = a_star(graphe, graphe.depart, graphe.arrivee, he)    
     fin = time.time()
     print(f"Temps d'exécution : {fin - debut} secondes")
     print("Chemin trouvé:", chemin1)

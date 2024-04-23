@@ -13,16 +13,25 @@ class Noeud:
         return self.f < other.f
 
 
-def heuristique(a, b):
+def heuristique(a, b, heuristique_choice=1):
     (x1, y1) = a
     (x2, y2) = b
-    return math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+    # Dans notre cas, on peut aussi utiliser la distance de Manhattan
+    # return abs(x1 - x2) + abs(y1 - y2)
+    # Ou a distance en ligne droite
+    # return max(abs(x1 - x2), abs(y1 - y2))
+    if heuristique_choice == 1 :
+        return 0
+    elif heuristique_choice == 2:
+        return max(abs(x1 - x2), abs(y1 - y2))
+    else:
+        return math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
 
-def a_star(graphe, depart, arrivee):
+def a_star(graphe, depart, arrivee, heuristique_choice=1):
     noeud_depart = Noeud(depart)
     noeud_arrivee = Noeud(arrivee)
-    noeud_depart.h = heuristique(noeud_depart.position, noeud_arrivee.position)
+    noeud_depart.h = heuristique(noeud_depart.position, noeud_arrivee.position, heuristique_choice)
     noeud_depart.f = noeud_depart.h
 
     open_set = [noeud_depart]
@@ -54,7 +63,7 @@ def a_star(graphe, depart, arrivee):
                 continue
 
             noeud_voisin.g = tentative_g_score
-            noeud_voisin.h = heuristique(noeud_voisin.position, noeud_arrivee.position)
+            noeud_voisin.h = heuristique(noeud_voisin.position, noeud_arrivee.position, heuristique_choice)
             noeud_voisin.f = noeud_voisin.g + noeud_voisin.h
 
             if noeud_voisin not in open_set:
