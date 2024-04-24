@@ -1,3 +1,4 @@
+# Plus court chemin
 Pour modéliser le problème du plus court chemin sous la forme d'un programme linéaire, nous pouvons utiliser les variables suivantes :
 
 x(i,j) = 1 si l'arc (i,j) fait partie du chemin le plus court, 0 sinon<br>

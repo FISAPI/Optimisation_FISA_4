@@ -7,7 +7,6 @@ import os
 import random
 import numpy as np
 
-
 class Voyage:
     def __init__(self, file_path=None):
         self.reseau = []  # Représentation du réseau (matrice)
@@ -228,34 +227,6 @@ class Voyage:
 
     def get_valeur(self, sommet):
         return self.sommets[sommet]
-
-    # def write_reseau_in_file(self):
-    #     with open(self.path + '/' + self.file_name+'_rewrite'+self.extension, 'w') as fichier:
-    #         fichier.write(f"{len(self.reseau)} {len(self.reseau[0])}\n")
-    #         for i in range(len(self.reseau)):
-    #             fichier.write(' '.join(map(str, self.reseau[i])))
-    #             fichier.write('\n')
-
-    # def write_data_in_file(self):
-    #     with open(self.path + '/' + 'data_'+self.file_name+".dat", 'w') as fichier:
-    #         fichier.write(f"nbNodes = {len(self.sommets)};\n")
-    #         dep = str(self.depart).replace("(", "<").replace(")", ">")
-    #         fichier.write(f"s = {dep};\n")
-    #         arr = str(self.arrivee).replace("(", "<").replace(")", ">")
-    #         fichier.write(f"t = {arr};\n\n")
-
-    #         fichier.write("Nodes = {\n")
-    #         for sommet in self.sommets:
-    #             fichier.write(f"\t<{sommet[0]},{sommet[1]}> // Sommet au point ({sommet[0]},{sommet[1]})\n")
-
-    #         fichier.write("};\n\n")
-    #         fichier.write("Arcs = {\n")
-    #         for arc in self.aretes:
-    #             arc = str(arc)
-    #             arc2 = arc.replace("(", "<").replace(")", ">")
-    #             arc2 = arc2.replace("<<", "<").replace(">>", ">")
-    #             fichier.write(f"\t{arc2}\n")
-    #         fichier.write("};\n")
     
     def write_data_2_in_file(self):
         with open(self.path + '/' + 'data_'+self.file_name+".dat", 'w') as fichier:
@@ -273,42 +244,9 @@ class Voyage:
                 fichier.write(f"],\n")
             fichier.write(f"];\n")
 
-    # def get_chemin(self):
-    #     with open(self.path + '/' +self.file_name+ "_chemin" +self.extension, 'r') as fichier:
-    #         lines = fichier.readlines()
-
-    #         d = []
-    #         for i, line in enumerate(lines):
-    #             if line == "d = []":
-    #                 return []
-    #             if i == 0:
-    #                 continue
-    #             line = line.strip()
-    #             elements = line.split(' ')
-    #             for j, element in enumerate(elements):
-    #                 if element == '[1':
-    #                     d.append(j - 2)
-    #                 if element == '1':
-    #                     d.append(j - 2)
-    #     print(d)
-    #     pre_chemin = []
-    #     for i, arc in enumerate(self.aretes):
-    #         for j in d:
-    #             if i == j:
-    #                 pre_chemin.append(arc)
-
-    #     # pre_chemin = [(((2, 0), (3, 0)), 1.0), (((5, 2), (6, 3)), 1.4142135623730951), (((1, 0), (2, 0)), 1.0), (((4, 1), (5, 2)), 1.4142135623730951), (((3, 0), (4, 1)), 1.4142135623730951)]
-    #     pre_chemin2 = self.trier_chemin(pre_chemin)
-    #     chemin = self.calc_chemin(pre_chemin2)
-    #     return chemin
-
     def write_chemin(self, chemin):
         with open(self.path + '/' + "sol_" + self.file_name +self.extension, 'w') as file:
             file.write(f"{chemin}")
-
-    # def write_chemin_astar(self, chemin):
-    #     with open(self.path + '/' + "sol_a_" + self.file_name + self.extension, 'w') as file:
-    #         file.write(f"{chemin}")
 
     def trier_chemin(self, pre_chemin):
         chemin = []
@@ -426,17 +364,6 @@ class Voyage:
                 y = random.randint(0, n-1)
             self.reseau[y][x] = 1
             self.ajouter_sommet((x, y), self.reseau[y][x])
-
-        # Construire les arêtes pour les sommets accessibles, incluant les diagonales
-        # directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
-        # for i in range(m):
-        #     for j in range(n):
-        #         if (i, j) in self.sommets:  # Si le sommet est accessible
-        #             #for di, dj in directions:  # Adjacents et diagonales
-        #             #    if 0 <= i + di < m and 0 <= j + dj < n and (i + di, j + dj) in self.sommets:
-        #             if random.random(0, 1) < p:
-        #                 cout = random.randint(10,50)
-        #                 self.ajouter_arete((i, j), (i + di, j + dj), cout)
 
         for sommet1 in self.sommets:
             for sommet2 in self.sommets:

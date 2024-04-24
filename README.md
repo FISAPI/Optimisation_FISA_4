@@ -4,14 +4,4 @@
 [Elena Beylat](https://github.com/PetitCheveu)<br>
 [Aurélien Houdart](https://github.com/Zaykiri)<br>
 
-## Introduction
-
-
-## Problematic
-
-
-## Data
-
-
-## Modelisation
 
