@@ -31,3 +31,32 @@ Cette modélisation permet de résoudre le problème du plus court chemin en uti
 |   10_10_1   |   09 secondes  |  8.65685424949238  |  0.20 secondes  |  8.65685424949238  |
 |   10_10_2   |   10 secondes  |  13.4852813742386  |  44.31 secondes  |  13.4852813742386  |
 |   20_20_1   |   13 secondes  |  26.9705627484771  |  trop long  |     |
+
+# Le voyageur de commerce
+### Enoncé du problème
+
+Soit G = (S, A, D) un graphe non orienté complet, où S est l'ensemble des sommets, A est l'ensemble des arêtes et D est la matrice des coûts. On note n = |S| le nombre de sommets et m = |A| le nombre d'arêtes.
+
+On définit les variables binaires x_ij pour chaque arête (i, j) ∈ A, telles que :
+
+x_ij = 1 si l'arête (i, j) est dans le cycle hamiltonien,
+x_ij = 0 sinon.
+Le problème du voyageur de commerce peut alors être formulé sous forme d'un programme linéaire en nombres entiers (PLNE) comme suit :
+
+### Minimiser : 
+$∑_{(i, j) ∈ A} d(i, j) * x_{ij}$
+
+### Sous les contraintes :
+
+Degré des sommets :
+
+$∑_{j ≠ i} x_{ij} = 2, ∀i ∈ S$ <br>
+
+Élimination des sous-cycles :
+
+$∑_{(i, j) ∈ A(W)} x_{ij} ≤ |W| - 1, ∀W ⊆ S, 2 ≤ |W| ≤ n - 2$
+où $A(W)$ est l'ensemble des arêtes dont les deux sommets sont dans W.
+
+Contrainte de binarité :
+
+$x_{ij} ∈ {0, 1}, ∀(i, j) ∈ A$
