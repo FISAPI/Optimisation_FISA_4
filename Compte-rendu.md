@@ -30,4 +30,4 @@ Cette modélisation permet de résoudre le problème du plus court chemin en uti
 |   5_10_2   |   10 secondes  |  11.6568542494924  |  3.11 secondes  |  11.6568542494924  |
 |   10_10_1   |   09 secondes  |  8.65685424949238  |  0.20 secondes  |  8.65685424949238  |
 |   10_10_2   |   10 secondes  |  13.4852813742386  |  44.31 secondes  |  13.4852813742386  |
-|   20_20_1   |   13 secondes  |  26.9705627484771  |     |     |
+|   20_20_1   |   13 secondes  |  26.9705627484771  |  infini   |     |
