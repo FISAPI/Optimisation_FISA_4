@@ -32,31 +32,6 @@ class Voyage:
             self.extension = ".txt"
             self.path = "exos"
             
-
-    # def lire_fichier(self, nom_fichier):
-    #     with open(nom_fichier, 'r') as fichier:
-    #         n, m = map(int, fichier.readline().split())  # Dimensions du réseau
-    #         for i in range(n):
-    #             ligne = list(map(int, fichier.readline().split()))
-    #             self.reseau.append(ligne)
-    #             for j, valeur in enumerate(ligne):
-    #                 if valeur != 0:  # Exclut les obstacles
-    #                     # self.sommets[(i, j)] = valeur
-    #                     self.ajouter_sommet((j, i), valeur)
-    #                     if valeur == 2:
-    #                         self.depart = (j, i)
-    #                     elif valeur == 3:
-    #                         self.arrivee = (j, i)
-
-    #     # Construire les arêtes pour les sommets accessibles, incluant les diagonales
-    #     directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
-    #     for i in range(m):
-    #         for j in range(n):
-    #             if (i, j) in self.sommets:  # Si le sommet est accessible
-    #                 for di, dj in directions:  # Adjacents et diagonales
-    #                     if 0 <= i + di < m and 0 <= j + dj < n and (i + di, j + dj) in self.sommets:
-    #                         cout = math.sqrt(di**2 + dj**2)
-    #                         self.ajouter_arete((i, j), (i + di, j + dj), cout)
     def lire_graphe_fichier(self, nom_fichier):
         self.reseau = []
         self.sommets = {}
@@ -254,33 +229,33 @@ class Voyage:
     def get_valeur(self, sommet):
         return self.sommets[sommet]
 
-    def write_reseau_in_file(self):
-        with open(self.path + '/' + self.file_name+'_rewrite'+self.extension, 'w') as fichier:
-            fichier.write(f"{len(self.reseau)} {len(self.reseau[0])}\n")
-            for i in range(len(self.reseau)):
-                fichier.write(' '.join(map(str, self.reseau[i])))
-                fichier.write('\n')
+    # def write_reseau_in_file(self):
+    #     with open(self.path + '/' + self.file_name+'_rewrite'+self.extension, 'w') as fichier:
+    #         fichier.write(f"{len(self.reseau)} {len(self.reseau[0])}\n")
+    #         for i in range(len(self.reseau)):
+    #             fichier.write(' '.join(map(str, self.reseau[i])))
+    #             fichier.write('\n')
 
-    def write_data_in_file(self):
-        with open(self.path + '/' + 'data_'+self.file_name+".dat", 'w') as fichier:
-            fichier.write(f"nbNodes = {len(self.sommets)};\n")
-            dep = str(self.depart).replace("(", "<").replace(")", ">")
-            fichier.write(f"s = {dep};\n")
-            arr = str(self.arrivee).replace("(", "<").replace(")", ">")
-            fichier.write(f"t = {arr};\n\n")
+    # def write_data_in_file(self):
+    #     with open(self.path + '/' + 'data_'+self.file_name+".dat", 'w') as fichier:
+    #         fichier.write(f"nbNodes = {len(self.sommets)};\n")
+    #         dep = str(self.depart).replace("(", "<").replace(")", ">")
+    #         fichier.write(f"s = {dep};\n")
+    #         arr = str(self.arrivee).replace("(", "<").replace(")", ">")
+    #         fichier.write(f"t = {arr};\n\n")
 
-            fichier.write("Nodes = {\n")
-            for sommet in self.sommets:
-                fichier.write(f"\t<{sommet[0]},{sommet[1]}> // Sommet au point ({sommet[0]},{sommet[1]})\n")
+    #         fichier.write("Nodes = {\n")
+    #         for sommet in self.sommets:
+    #             fichier.write(f"\t<{sommet[0]},{sommet[1]}> // Sommet au point ({sommet[0]},{sommet[1]})\n")
 
-            fichier.write("};\n\n")
-            fichier.write("Arcs = {\n")
-            for arc in self.aretes:
-                arc = str(arc)
-                arc2 = arc.replace("(", "<").replace(")", ">")
-                arc2 = arc2.replace("<<", "<").replace(">>", ">")
-                fichier.write(f"\t{arc2}\n")
-            fichier.write("};\n")
+    #         fichier.write("};\n\n")
+    #         fichier.write("Arcs = {\n")
+    #         for arc in self.aretes:
+    #             arc = str(arc)
+    #             arc2 = arc.replace("(", "<").replace(")", ">")
+    #             arc2 = arc2.replace("<<", "<").replace(">>", ">")
+    #             fichier.write(f"\t{arc2}\n")
+    #         fichier.write("};\n")
     
     def write_data_2_in_file(self):
         with open(self.path + '/' + 'data_'+self.file_name+".dat", 'w') as fichier:
@@ -298,42 +273,42 @@ class Voyage:
                 fichier.write(f"],\n")
             fichier.write(f"];\n")
 
-    def get_chemin(self):
-        with open(self.path + '/' +self.file_name+ "_chemin" +self.extension, 'r') as fichier:
-            lines = fichier.readlines()
+    # def get_chemin(self):
+    #     with open(self.path + '/' +self.file_name+ "_chemin" +self.extension, 'r') as fichier:
+    #         lines = fichier.readlines()
 
-            d = []
-            for i, line in enumerate(lines):
-                if line == "d = []":
-                    return []
-                if i == 0:
-                    continue
-                line = line.strip()
-                elements = line.split(' ')
-                for j, element in enumerate(elements):
-                    if element == '[1':
-                        d.append(j - 2)
-                    if element == '1':
-                        d.append(j - 2)
-        print(d)
-        pre_chemin = []
-        for i, arc in enumerate(self.aretes):
-            for j in d:
-                if i == j:
-                    pre_chemin.append(arc)
+    #         d = []
+    #         for i, line in enumerate(lines):
+    #             if line == "d = []":
+    #                 return []
+    #             if i == 0:
+    #                 continue
+    #             line = line.strip()
+    #             elements = line.split(' ')
+    #             for j, element in enumerate(elements):
+    #                 if element == '[1':
+    #                     d.append(j - 2)
+    #                 if element == '1':
+    #                     d.append(j - 2)
+    #     print(d)
+    #     pre_chemin = []
+    #     for i, arc in enumerate(self.aretes):
+    #         for j in d:
+    #             if i == j:
+    #                 pre_chemin.append(arc)
 
-        # pre_chemin = [(((2, 0), (3, 0)), 1.0), (((5, 2), (6, 3)), 1.4142135623730951), (((1, 0), (2, 0)), 1.0), (((4, 1), (5, 2)), 1.4142135623730951), (((3, 0), (4, 1)), 1.4142135623730951)]
-        pre_chemin2 = self.trier_chemin(pre_chemin)
-        chemin = self.calc_chemin(pre_chemin2)
-        return chemin
+    #     # pre_chemin = [(((2, 0), (3, 0)), 1.0), (((5, 2), (6, 3)), 1.4142135623730951), (((1, 0), (2, 0)), 1.0), (((4, 1), (5, 2)), 1.4142135623730951), (((3, 0), (4, 1)), 1.4142135623730951)]
+    #     pre_chemin2 = self.trier_chemin(pre_chemin)
+    #     chemin = self.calc_chemin(pre_chemin2)
+    #     return chemin
 
     def write_chemin(self, chemin):
         with open(self.path + '/' + "sol_" + self.file_name +self.extension, 'w') as file:
             file.write(f"{chemin}")
 
-    def write_chemin_astar(self, chemin):
-        with open(self.path + '/' + "sol_a_" + self.file_name + self.extension, 'w') as file:
-            file.write(f"{chemin}")
+    # def write_chemin_astar(self, chemin):
+    #     with open(self.path + '/' + "sol_a_" + self.file_name + self.extension, 'w') as file:
+    #         file.write(f"{chemin}")
 
     def trier_chemin(self, pre_chemin):
         chemin = []
@@ -388,11 +363,8 @@ class Voyage:
             for j, sommet2 in enumerate(self.sommets):
                 if tableau[i][j] == 1:
                     pre_chemin.append(((sommet1, sommet2), self.get_cout(sommet1, sommet2)))
-        print(pre_chemin)
         pre_chemin2 = self.trier_chemin(pre_chemin)
-        print("Chemin pré-trié:\n", pre_chemin2)
         chemin = self.calc_chemin(pre_chemin2)
-        print("Chemin trouvé:\n", chemin)
         return chemin
 
     def plot_chemin(self, chemin):
